@@ -15,29 +15,28 @@ interface IEditAddWordDialog {
     onDismiss: () => void,
     onWordSave: (word: IWord) => void,
     languages: ILanguage[],
-    currentLanguage?:string;
+    currentLanguage?: string;
 }
 
-const AddEditWordDlg = ({ WordToEdit, onDismiss, onWordSave,languages,currentLanguage }: IEditAddWordDialog) => {
-     
-    const [showError,SetShowError] = useState<string|null>(null);
-    
-    const [selectedValue,setSelectedValue] = useState<string|undefined>(WordToEdit?.language||currentLanguage?currentLanguage:languages?languages[0]._id:'');
-  
-     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<WordApi.IWordInput>({
-      defaultValues: {
+const AddEditWordDlg = ({ WordToEdit, onDismiss, onWordSave, languages, currentLanguage }: IEditAddWordDialog) => {
+
+    const [showError, SetShowError] = useState<string | null>(null);
+
+    const [selectedValue, setSelectedValue] = useState<string | undefined>(WordToEdit?.language || currentLanguage ? currentLanguage : languages ? languages[0]._id : '');
+
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<WordApi.IWordInput>({
+        defaultValues: {
             title: WordToEdit?.title || "",
             language: WordToEdit?.language || selectedValue,
         }
     });
 
-  
-
-    useEffect(()=>{
+    useEffect(() => {
         SetShowError(null);
-    },[register])
+    }, [register])
+
     async function onSubmit(input: WordApi.IWordInput) {
-        
+
         try {
             let wordResponce: IWord;
             if (WordToEdit) {
@@ -47,62 +46,54 @@ const AddEditWordDlg = ({ WordToEdit, onDismiss, onWordSave,languages,currentLan
             }
             onWordSave(wordResponce);
         } catch (error) {
-            if ((error instanceof AccessError)||(error instanceof ConflictError)||(error instanceof InvalidId)||(error instanceof NotFoundError)) {
+            if ((error instanceof AccessError) || (error instanceof ConflictError) || (error instanceof InvalidId) || (error instanceof NotFoundError)) {
                 SetShowError(error.message);
             } else {
-                 
+
                 alert(error);
             }
-            
-            console.log(error);
-            
+            console.error(error);
         }
-
     }
-    
+
     return (<Modal show onHide={onDismiss}>
         <Modal.Header closeButton>
             <Modal.Title>
-                {WordToEdit?'Edit word card':'Add word card'}
+                {WordToEdit ? 'Edit word card' : 'Add word card'}
             </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-            {showError&&<Alert variant="danger">
+            {showError && <Alert variant="danger">
                 {showError}
             </Alert>}
-            {errors.title&&<Alert variant="danger">{errors.title?.message}</Alert>}
+            {errors.title && <Alert variant="danger">{errors.title?.message}</Alert>}
             <Form id="AddEditWordForm" onSubmit={handleSubmit(onSubmit)}>
-                <TextInputFields 
-                name = 'title'
-                label="Title"
-                type="text"
-                placeholder="Title"
-                register={register}
-                registerOptions={selectedValue==='63f2400bc1ee59dffb6258ff'?{
-                    pattern:{ value:/[A-Za-z]/, message:'Character does not correspond to the language '}, required: {value:true,message:'Fill in the title'}
-                  }:{ pattern:{ value:/[А-Яа-я]/, message:'Літера не відповідає мові'}, required: {value:true,message:'Заповніть назву'}}}
-                error={errors.title}
+                <TextInputFields
+                    name='title'
+                    label="Title"
+                    type="text"
+                    placeholder="Title"
+                    register={register}
+                    registerOptions={selectedValue === '63f2400bc1ee59dffb6258ff' ? {
+                        pattern: { value: /[A-Za-z]/, message: 'Character does not correspond to the language ' }, required: { value: true, message: 'Fill in the title' }
+                    } : { pattern: { value: /[А-Яа-я]/, message: 'Літера не відповідає мові' }, required: { value: true, message: 'Заповніть назву' } }}
+                    error={errors.title}
                 />
-                
+
                 <Form.Label className="mb-3 mt-3">
-                Language
+                    Language
                 </Form.Label>
                 <Form.Select aria-label="Default select example"
                     {...register("language")}
-                    
-                    onChange={(e)=>{
+
+                    onChange={(e) => {
                         setSelectedValue(e.target.value);
-                        
+
                     }}
-
                 >
-                    {languages.map(l=><option value={l._id}>{l.name}</option>)}
-                    
-                    
-
+                    {languages.map(l => <option value={l._id}>{l.name}</option>)}
                 </Form.Select>
-
             </Form>
         </Modal.Body>
         <Modal.Footer>

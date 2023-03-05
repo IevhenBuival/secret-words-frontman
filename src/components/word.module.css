@@ -4,14 +4,10 @@
     mask-image: linear-gradient(120deg,rgb(9, 112, 131) 60%,Transparent);
 }
 
-
-
-
 .cardText{
     white-space: pre-line;
     background: cornflowerblue;
 }
-
 
 .cardBody{
     display:block;

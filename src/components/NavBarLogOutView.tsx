@@ -5,15 +5,15 @@ interface INavBarLogOutView{
     onLogInClicked:()=>void
 }
 
-const NavBarLogOutView = ({onSignUpClicked,onLogInClicked}:INavBarLogOutView) => {
-    return ( <>
-    <Button onClick={onSignUpClicked}>
-        Sign up
-    </Button>
-    <Button onClick={onLogInClicked}>
-        Log in
-    </Button>
-    </> );
+const NavBarLogOutView = ({ onSignUpClicked, onLogInClicked }: INavBarLogOutView) => {
+    return (<>
+        <Button onClick={onSignUpClicked}>
+            Sign up
+        </Button>
+        <Button onClick={onLogInClicked}>
+            Log in
+        </Button>
+    </>);
 }
- 
+
 export default NavBarLogOutView;

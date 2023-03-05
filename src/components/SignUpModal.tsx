@@ -13,8 +13,9 @@ interface ISignUpModal {
     onDismiss: () => void,
     onSignUp: (user: IUser) => void,
 }
+
 const SignUpModal = ({ onDismiss, onSignUp }: ISignUpModal) => {
-    const [showError,SetShowError]=useState<string|null>(null);
+    const [showError, SetShowError] = useState<string | null>(null);
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ISignUpCredentials>();
 
@@ -38,7 +39,7 @@ const SignUpModal = ({ onDismiss, onSignUp }: ISignUpModal) => {
             </Modal.Header>
             <Modal.Body>
                 {
-                    showError&&<Alert variant="danger">
+                    showError && <Alert variant="danger">
                         {showError}
                     </Alert>
                 }
@@ -71,9 +72,9 @@ const SignUpModal = ({ onDismiss, onSignUp }: ISignUpModal) => {
                         error={errors.password}
                     />
                     <Button
-                    type = "submit"
-                    disabled = {isSubmitting}
-                    className={styles.width100}>
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={styles.width100}>
                         Sign Up
                     </Button>
                 </Form>

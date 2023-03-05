@@ -12,10 +12,12 @@ interface ILoginModalProps {
     onDismiss: () => void,
     onLogin: (user: IUser) => void,
 };
+
 const LoginModal = ({ onDismiss, onLogin }: ILoginModalProps) => {
     const [showError, SetShowError] = useState<string | null>(null);
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ILoginCredentials>();
+
     async function onSubmit(credentionals: ILoginCredentials) {
         try {
             const user = await wordsApi.login(credentionals);
@@ -39,7 +41,7 @@ const LoginModal = ({ onDismiss, onLogin }: ILoginModalProps) => {
             </Modal.Header>
             <Modal.Body>
                 {
-                    showError&&<Alert variant="danger">
+                    showError && <Alert variant="danger">
                         {showError}
                     </Alert>
                 }

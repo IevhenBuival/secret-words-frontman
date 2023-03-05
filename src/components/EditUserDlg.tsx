@@ -12,10 +12,8 @@ interface IEditUserDialog {
     onUserSave: (user: IUser) => void,
 }
 
-
-
-const EditUserDlg = ({userToEdit,onDismiss,onUserSave}:IEditUserDialog) => {
-    const [showError,SetShowError] = useState<String|null>(null);
+const EditUserDlg = ({ userToEdit, onDismiss, onUserSave }: IEditUserDialog) => {
+    const [showError, SetShowError] = useState<String | null>(null);
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<WordApi.IUserInput>({
         defaultValues: {
             email: userToEdit?.email || "",
@@ -23,9 +21,9 @@ const EditUserDlg = ({userToEdit,onDismiss,onUserSave}:IEditUserDialog) => {
             rights: userToEdit?.rights || "user",
         }
     });
-    useEffect(()=>{
+    useEffect(() => {
         SetShowError(null);
-    },[register]);
+    }, [register]);
     async function onSubmit(input: WordApi.IUserInput) {
         try {
             let userResponce: IUser;
@@ -34,68 +32,65 @@ const EditUserDlg = ({userToEdit,onDismiss,onUserSave}:IEditUserDialog) => {
                 userResponce = await WordApi.updateUser(userToEdit._id, input);
                 onUserSave(userResponce);
             }
-            
         } catch (error) {
-            if ((error instanceof AccessError)||(error instanceof ConflictError)||(error instanceof InvalidId)||(error instanceof NotFoundError)) {
+            if ((error instanceof AccessError) || (error instanceof ConflictError) || (error instanceof InvalidId) || (error instanceof NotFoundError)) {
                 SetShowError(error.message);
             } else {
                 alert(error);
             }
-            
-            console.log(error);
-            alert(error);
+            console.error(error);
         }
     }
-   return (<Modal show onHide={onDismiss}>
-    <Modal.Header closeButton>
-        <Modal.Title>
-            {'Edit '+userToEdit.username+' parametrs'}
-        </Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-        {showError&&<Alert variant="danger">
-            {showError}
-        </Alert>}
-        <Form id="EditUserForm" onSubmit={handleSubmit(onSubmit)}>
-            <TextInputFields 
-            name = 'email'
-            label="Email"
-            type="email"
-            placeholder="Email"
-            register={register}
-             error={errors.email}
-            />
-            
-            <TextInputFields 
-            name='rights'
-            label='Rights'
-            type="text"
-            placeholder="rights"
-            register={register}
-            error={errors.rights}
-            />
+    return (<Modal show onHide={onDismiss}>
+        <Modal.Header closeButton>
+            <Modal.Title>
+                {'Edit ' + userToEdit.username + ' parametrs'}
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            {showError && <Alert variant="danger">
+                {showError}
+            </Alert>}
+            <Form id="EditUserForm" onSubmit={handleSubmit(onSubmit)}>
+                <TextInputFields
+                    name='email'
+                    label="Email"
+                    type="email"
+                    placeholder="Email"
+                    register={register}
+                    error={errors.email}
+                />
 
-            <TextInputFields 
-            name='password'
-            label='Password'
-            type="password"
-            placeholder="password"
-            register={register}
-            error={errors.rights}
-            />
+                <TextInputFields
+                    name='rights'
+                    label='Rights'
+                    type="text"
+                    placeholder="rights"
+                    register={register}
+                    error={errors.rights}
+                />
 
-        </Form>
-    </Modal.Body>
-    <Modal.Footer>
-        <Button
-            form="EditUserForm"
-            type="submit"
-            disabled={isSubmitting}
-        >
-            Save
-        </Button>
-    </Modal.Footer>
-</Modal>);
+                <TextInputFields
+                    name='password'
+                    label='Password'
+                    type="password"
+                    placeholder="password"
+                    register={register}
+                    error={errors.rights}
+                />
+
+            </Form>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button
+                form="EditUserForm"
+                type="submit"
+                disabled={isSubmitting}
+            >
+                Save
+            </Button>
+        </Modal.Footer>
+    </Modal>);
 }
- 
+
 export default EditUserDlg;

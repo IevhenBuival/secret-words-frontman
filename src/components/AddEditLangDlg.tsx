@@ -12,17 +12,18 @@ interface IEditAddLangDialog {
     onLangSave: (lang: ILanguage) => void,
 }
 
-const AddEditLangDlg = ({LangToEdit,onDismiss,onLangSave}:IEditAddLangDialog) => {
-    const [showError,SetShowError] = useState<String|null>(null);
-   
+const AddEditLangDlg = ({ LangToEdit, onDismiss, onLangSave }: IEditAddLangDialog) => {
+    const [showError, SetShowError] = useState<String | null>(null);
+
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<WordApi.ILangInput>({
         defaultValues: {
             name: LangToEdit?.name || "",
-          }
-    }); 
-    useEffect(()=>{
+        }
+    });
+
+    useEffect(() => {
         SetShowError(null);
-    },[register])
+    }, [register])
 
     async function onSubmit(input: WordApi.ILangInput) {
         try {
@@ -34,51 +35,49 @@ const AddEditLangDlg = ({LangToEdit,onDismiss,onLangSave}:IEditAddLangDialog) =>
             }
             onLangSave(wordResponse);
         } catch (error) {
-            if ((error instanceof AccessError)||(error instanceof ConflictError)||(error instanceof InvalidId)||(error instanceof NotFoundError)) {
+            if ((error instanceof AccessError) || (error instanceof ConflictError) || (error instanceof InvalidId) || (error instanceof NotFoundError)) {
                 SetShowError(error.message);
             } else {
                 alert(error);
             }
-            
-            console.log(error);
-           
+            console.error(error);
         }
 
     }
-    return ( <>
-       <Modal show onHide={onDismiss}>
-        <Modal.Header closeButton>
-            <Modal.Title>
-                {LangToEdit?'Edit word card':'Add word card'}
-            </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            {showError&&<Alert variant="danger">
-                {showError}
-            </Alert>}
-            <Form id="AddEditLangForm" onSubmit={handleSubmit(onSubmit)}>
-                <TextInputFields 
-                name = 'name'
-                label="Name"
-                type="text"
-                placeholder="Name"
-                register={register}
-                registerOptions={{ required: "Required" }}
-                error={errors.name}
-                />
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-            <Button
-                form="AddEditLangForm"
-                type="submit"
-                disabled={isSubmitting}
-            >
-                Save
-            </Button>
-        </Modal.Footer>
-    </Modal> 
-    </> );
+    return (<>
+        <Modal show onHide={onDismiss}>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    {LangToEdit ? 'Edit word card' : 'Add word card'}
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {showError && <Alert variant="danger">
+                    {showError}
+                </Alert>}
+                <Form id="AddEditLangForm" onSubmit={handleSubmit(onSubmit)}>
+                    <TextInputFields
+                        name='name'
+                        label="Name"
+                        type="text"
+                        placeholder="Name"
+                        register={register}
+                        registerOptions={{ required: "Required" }}
+                        error={errors.name}
+                    />
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button
+                    form="AddEditLangForm"
+                    type="submit"
+                    disabled={isSubmitting}
+                >
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    </>);
 }
- 
+
 export default AddEditLangDlg;
