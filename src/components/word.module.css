@@ -1,0 +1,26 @@
+.wordCard{
+    background: cornflowerblue;
+    overflow: hidden;
+    mask-image: linear-gradient(120deg,rgb(9, 112, 131) 60%,Transparent);
+}
+
+
+
+
+.cardText{
+    white-space: pre-line;
+    background: cornflowerblue;
+}
+
+
+.cardBody{
+    display:block;
+    background: cornflowerblue;
+}
+
+.flexCenter{
+    display: flex;
+    align-items: center;
+   justify-content: center;
+    gap: 4px;
+}
