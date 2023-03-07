@@ -1,6 +1,14 @@
 
-# This is front for SECRED WORDS managing
-# you have GUI for fill Datebase by words on two languages
+###  This is front for SECRED WORDS managing
+
+You have GUI for fill Datebase by words on two languages
+
+
+
+
+
+
+
 
 # Getting Started with Create React App
 
