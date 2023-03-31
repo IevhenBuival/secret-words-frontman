@@ -40,7 +40,6 @@ const AddEditWordDlg = ({
       else if (languages) testedvalue = languages[0]._id;
       else testedvalue = "";
     }
-    console.log("testedvalue-" + testedvalue);
     return testedvalue;
   }
   const [selectedValue, setSelectedValue] = useState<string | undefined>(

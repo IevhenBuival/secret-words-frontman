@@ -38,7 +38,6 @@ const TextInputFields = ({
         };
   }
 
-  console.log(registerOptions);
   return (
     <Form.Group className="mt-3" controlId={name + "-input"}>
       <Form.Label className="mb-3">{label}</Form.Label>
