@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import { useLanguages } from "../hooks/useLanguages";
-import * as WordsApi from "../hooks/words_api";
-import { IUser } from "../models/user";
-import { IWord } from "../models/word";
-import styles from "../styles/WordPage.module.css";
-import AddEditWordDlg from "./AddEditWordDlg";
-import Word from "./Word";
+import { useLanguages } from "../../hooks/useLanguages";
+import * as WordsApi from "../../hooks/words_api";
+import { IUser } from "../../models/user";
+import { IWord } from "../../models/word";
+import styles from "./AllPages.module.css";
+import AddEditWordDlg from "../Dialogs/AddEditWordDlg";
+import Word from "../Word";
 
 const WordsPageView = () => {
   const [words, setWords] = useState<IWord[]>([]);

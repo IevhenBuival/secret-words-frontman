@@ -27,7 +27,7 @@ const TextInputFields = ({
     message: string;
   }
   function ReturnPattern(code: string | undefined): WordPattern {
-    return code === "63f2400bc1ee59dffb6258ff"
+    return code === "Latin"
       ? {
           value: /[A-Za-z]+$/,
           message: "Character does not correspond to the language ",

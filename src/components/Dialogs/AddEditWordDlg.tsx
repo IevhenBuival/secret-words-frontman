@@ -7,17 +7,20 @@ import {
   ConflictError,
   InvalidId,
   NotFoundError,
-} from "../errors/http_errors";
-import * as WordApi from "../hooks/words_api";
-import { IWord } from "../models/word";
-import TextInputFields from "./Form/TextInputFields";
+} from "../../errors/http_errors";
+import * as WordApi from "../../hooks/words_api";
+import { IWord } from "../../models/word";
+import TextInputFields from "../Form/TextInputFields";
 
-import { ILanguage } from "../models/language";
+import { ILanguage } from "../../models/language";
+import { ICharSet } from "../../models/charSet";
+import { useLanguages } from "../../hooks/useLanguages";
 
 interface IEditAddWordDialog {
   WordToEdit?: IWord;
   onDismiss: () => void;
   onWordSave: (word: IWord) => void;
+
   languages: ILanguage[];
   currentLanguage?: string;
 }
@@ -26,6 +29,7 @@ const AddEditWordDlg = ({
   WordToEdit,
   onDismiss,
   onWordSave,
+
   languages,
   currentLanguage,
 }: IEditAddWordDialog) => {
@@ -42,6 +46,12 @@ const AddEditWordDlg = ({
     }
     return testedvalue;
   }
+  const { charSets } = useLanguages();
+  function selectCharset(lang: string | undefined): string {
+    const rezult = charSets.find((n) => n._id === lang)?.name;
+    return rezult ? rezult : "Latin";
+  }
+
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
     calcInitialState()
   );
@@ -109,12 +119,12 @@ const AddEditWordDlg = ({
             type="text"
             placeholder="Title"
             register={register}
-            langForPattern={selectedValue}
+            langForPattern={selectCharset(selectedValue)}
             registerOptions={{
               required: {
                 value: true,
                 message:
-                  selectedValue === "63f2400bc1ee59dffb6258ff"
+                  selectCharset(selectedValue) === "Latin"
                     ? "Fill in the title"
                     : "Заповніть назву",
               },

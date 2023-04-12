@@ -1,0 +1,6 @@
+.NavBar {
+  display: block;
+  max-height: 10%;
+  height: 12vh;
+  min-height: min-content;
+}
